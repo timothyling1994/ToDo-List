@@ -1,0 +1,1 @@
+(()=>{let e=((e,t,i,o,r)=>{const l=e=>{i=l};return{projectName:e,title:t,description:i,dueDate:o,priority:r,editProjectName:t=>{e=t},editTitle:e=>{t=e},editDescription:l,editDueDate:e=>{o=e},editPriority:e=>{r=e}}})("Groceries","Buy Mushrooms","N/A","01/15/21",10);console.log(e.title),e.editTitle("Buy Inoki Mushrooms"),console.log(e.title)})();
