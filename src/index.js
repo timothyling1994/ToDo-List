@@ -48,6 +48,18 @@ let projectController = (() => {
 		//link DOMController
 	};
 
+	const deleteProject = (indexToRemove) => {
+		projectArray.splice(indexToRemove,1);
+		projectsCounter -= 1;
+
+		for(let i =0;i<projectArray.length;i++)
+		{
+			projectArray[i].projectId = i;
+		}
+
+		DOMController.updateDOM();
+	};
+
 	const addNewProject = (project_name,project_descrip) => {
 		let newProj = projectFactory();
 		newProj.proj_name = project_name;
@@ -61,7 +73,7 @@ let projectController = (() => {
 		return projectsCounter;
 	};
 
-	return {addNewProject,returnProjectsCounter,projectArray};
+	return {addNewProject,deleteProject,returnProjectsCounter,projectArray};
 })();
 
 let projectFactory = () => {
@@ -110,24 +122,23 @@ let DOMController = (() => {
 	let project_entries;
 
 	const init = () => {
+
 		project_panel = document.querySelector("#project-panel");
 		project_entries = document.querySelector("#project-entries");
 
 		let addModal = document.getElementById("modalWindow");
-
 		let add_proj_btn = document.querySelector("#add-project");
+		let modal_close_btn = document.getElementsByClassName("close")[0];
+		let add_submit_btn = document.querySelector("#submit");
 
 		add_proj_btn.addEventListener("click",function(){
 			addModal.style.display = "block";
 		});
 
-		let modal_close_btn = document.getElementsByClassName("close")[0];
-
 		modal_close_btn.addEventListener("click",function(){
 			addModal.style.display = "none";
 		});
 
-		let add_submit_btn = document.querySelector("#submit");
 		add_submit_btn.addEventListener("click",function(){
 
 			let proj_name = document.querySelector("#project-name-input").value;
@@ -142,15 +153,33 @@ let DOMController = (() => {
 
 	}
 
-	const addNewProjectDOM = (project_name, project_descrip, project_id) => {
+	const updateDOM = () => {
+		deleteDOM();
 
-		let newProjectDiv =  document.createElement("div");
-		newProjectDiv.setAttribute("id","project-"+project_id);
-		newProjectDiv.classList.add("project");
+		let length = projectController.projectArray.length;
+
+		for (let i = 0;i<length; i++)
+		{
+			let project_name = projectController.projectArray[i].proj_name; 
+			let project_descrip = projectController.projectArray[i].proj_description;
+			let id = projectController.projectArray[i].projectId;
+
+			addNewProjectDOM(project_name,project_descrip,id);
+		}
+	};
+
+	const deleteDOM = () => {
+		while(project_entries.firstChild)
+		{
+			project_entries.removeChild(project_entries.lastChild);
+		}
+	};
+
+	const addNewProjectDOM = (project_name, project_descrip, project_id) => {
 
 		let projectInfo = document.createElement("div");
 		projectInfo.setAttribute("id","project-info");
-
+		//projectInfo.setAttribute("value","project-info");
 
 		let nameDiv =  document.createElement("div");
 		let nameTextNode = document.createTextNode(project_name);
@@ -164,32 +193,41 @@ let DOMController = (() => {
 
 		projectInfo.appendChild(nameDiv,projectInfo);
 		projectInfo.appendChild(descriptionDiv,projectInfo);
-		newProjectDiv.appendChild(projectInfo,newProjectDiv);
 
 
 		let projectBtns = document.createElement("div");
 		projectBtns.setAttribute("id","project-btns-container");
 
 		let editBtn = document.createElement("div");
-		editBtn.classList.add("project-btns")
+		editBtn.classList.add("project-btns");
 		let editText = document.createTextNode("Edit");
 		editBtn.appendChild(editText);
 
 		let deleteBtn = document.createElement("div");
-		deleteBtn.classList.add("project-btns")
+		deleteBtn.classList.add("project-btns");
+		deleteBtn.addEventListener("click",function(){
+			let deleteProjectId = this.closest(".project").getAttribute("value");
+			projectController.deleteProject(deleteProjectId);
+		});
 		let deleteText = document.createTextNode("Delete");
 		deleteBtn.appendChild(deleteText);
 
 		projectBtns.appendChild(editBtn,projectBtns);
 		projectBtns.appendChild(deleteBtn,projectBtns);
-		newProjectDiv.appendChild(projectBtns,newProjectDiv);
 
+
+		let newProjectDiv =  document.createElement("div");
+		newProjectDiv.setAttribute("id","project-"+project_id);
+		newProjectDiv.setAttribute("value",project_id);
+		newProjectDiv.classList.add("project");
+		newProjectDiv.appendChild(projectInfo,newProjectDiv);
+		newProjectDiv.appendChild(projectBtns,newProjectDiv);
 
 		project_entries.appendChild(newProjectDiv,project_entries);
 
 	};
 
-	return{init};
+	return{init,updateDOM, deleteDOM};
 
 })();
 
