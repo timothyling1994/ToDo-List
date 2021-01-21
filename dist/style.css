@@ -51,14 +51,13 @@ html, body{
   cursor: pointer;
 }
 
-#submit{
+.submit{
 	border:2px solid black;
 	padding:3px 10px 3px 10px;
 
-	
 }
 
-#submit:hover{
+.submit:hover{
 	background-color: #444a4d;	
 }
 
@@ -95,7 +94,7 @@ input, textarea
 	margin-left: 10px;
 }
 
-#addProjectHeader{
+#addProjectHeader,#editProjectHeader{
 	width:100%;
 	text-align:center;
 	font-size:36px;
@@ -179,7 +178,7 @@ input, textarea
 	font-size:20px;
 }
 
-#project-btns-container{
+.project-btns-container{
 	display:flex;
 	flex-wrap:wrap;
 	justify-content: center;

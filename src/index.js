@@ -43,9 +43,11 @@ let projectController = (() => {
 	};*/
 
 	const editProject = (projectId, project_name,project_descrip) => {
+
 		projectArray[projectId].proj_name = project_name;
-		projectArray[projectId].project_descrip = project_descrip;
-		//link DOMController
+		projectArray[projectId].proj_description = project_descrip;
+
+		DOMController.updateDOM();
 	};
 
 	const deleteProject = (indexToRemove) => {
@@ -73,7 +75,7 @@ let projectController = (() => {
 		return projectsCounter;
 	};
 
-	return {addNewProject,deleteProject,returnProjectsCounter,projectArray};
+	return {addNewProject,editProject,deleteProject,returnProjectsCounter,projectArray};
 })();
 
 let projectFactory = () => {
@@ -120,6 +122,7 @@ let DOMController = (() => {
 
 	let project_panel;
 	let project_entries;
+	let toEdit;
 
 	const init = () => {
 
@@ -127,9 +130,12 @@ let DOMController = (() => {
 		project_entries = document.querySelector("#project-entries");
 
 		let addModal = document.getElementById("modalWindow");
+		let editModal = document.getElementById("editModalWindow");
 		let add_proj_btn = document.querySelector("#add-project");
 		let modal_close_btn = document.getElementsByClassName("close")[0];
-		let add_submit_btn = document.querySelector("#submit");
+		let edit_modal_close_btn = document.getElementsByClassName("close")[1];
+		let add_submit_btn = document.querySelector("#submit-add");
+		let edit_submit_btn = document.querySelector("#submit-edit");
 
 		add_proj_btn.addEventListener("click",function(){
 			addModal.style.display = "block";
@@ -137,6 +143,10 @@ let DOMController = (() => {
 
 		modal_close_btn.addEventListener("click",function(){
 			addModal.style.display = "none";
+		});
+
+		edit_modal_close_btn.addEventListener("click",function(){
+			editModalWindow.style.display = "none";
 		});
 
 		add_submit_btn.addEventListener("click",function(){
@@ -151,7 +161,24 @@ let DOMController = (() => {
 			addModal.style.display = "none";
 		});
 
+		edit_submit_btn.addEventListener("click",function(){
+			sendEditedDetails();
+			editModal.style.display="none";
+		});
+
 	}
+
+	const sendEditedDetails = () => {
+
+		let edited_proj_name = document.querySelector("#edit-project-name-input").value;
+		let edited_proj_descrip = document.querySelector("#edit-project-descrip-input").value;
+
+		console.log("after submit:" + toEdit);
+		projectController.editProject(toEdit, edited_proj_name,edited_proj_descrip);
+
+
+	};
+	
 
 	const updateDOM = () => {
 		deleteDOM();
@@ -177,8 +204,10 @@ let DOMController = (() => {
 
 	const addNewProjectDOM = (project_name, project_descrip, project_id) => {
 
+		let editModal = document.querySelector("#editModalWindow");
+
 		let projectInfo = document.createElement("div");
-		projectInfo.setAttribute("id","project-info");
+		projectInfo.setAttribute("class","project-info");
 		//projectInfo.setAttribute("value","project-info");
 
 		let nameDiv =  document.createElement("div");
@@ -196,10 +225,31 @@ let DOMController = (() => {
 
 
 		let projectBtns = document.createElement("div");
-		projectBtns.setAttribute("id","project-btns-container");
+		projectBtns.setAttribute("class","project-btns-container");
 
 		let editBtn = document.createElement("div");
 		editBtn.classList.add("project-btns");
+
+		editBtn.addEventListener("click",function(){
+
+			let edit_name = document.querySelector("#edit-project-name-input");
+			let edit_descrip = document.querySelector("#edit-project-descrip-input");
+
+			let name_placeholder = this.parentElement.previousSibling.firstChild.textContent;
+			let descrip_placeholder = this.parentElement.previousSibling.firstChild.nextSibling.textContent;
+			toEdit = this.closest(".project").getAttribute("value");
+
+			console.log("before submit:" + toEdit);
+			edit_name.value = name_placeholder;
+			edit_descrip.value = descrip_placeholder;
+
+			editModal.style.display="block";
+
+			//let editProjectId = this.closest(".project").getAttribute("value");
+			//projectController.editProject(editProjectId);
+		});
+
+
 		let editText = document.createTextNode("Edit");
 		editBtn.appendChild(editText);
 
