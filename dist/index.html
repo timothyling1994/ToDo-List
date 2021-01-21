@@ -9,6 +9,35 @@
 
 </head>  
 <body>
+	<div id="modalWindow" class="modal">
+		<div class="modal-content">
 
+			<span class="close">&times;</span>
+			<div id="addProjectHeader">Add Project?</div>
+
+			<label>Project Name:</label>
+			<input id="project-name-input" type="text" value="Groceries"><br>
+		
+			<label>Description:</label>
+			<textarea id="project-descrip-input" wrap="physical"  type="text">Buy Oranges</textarea><br>
+			
+			<div id="button-row"><div id="submit" type="submit" value="Submit">Submit</div></div>	
+		</div>
+	</div>
+
+	<div id="flex-wrapper">
+		<div id="project-panel">
+			<div id="flex-wrapper-2">
+				<div id="project-header">
+					Projects
+				</div>
+				<div id="add-project">
+					<span id="plus-icon">+</span>
+					Add Project
+				</div>
+			</div>
+		</div>
+		<div id="project-entries"></div>
+	</div>
 </body>  
 </html>

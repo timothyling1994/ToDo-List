@@ -1,0 +1,196 @@
+@font-face { font-family: san-fran-bold; src: url('Heebo/static/Heebo-bold.ttf'); } 
+@font-face { font-family: san-fran; src: url('Heebo/static/Heebo-Medium.ttf'); } 
+
+html, body{
+	margin:0;
+	max-width:100%;
+	max-height:100%;
+	font-family:san-fran;
+	font-size:24px;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+	display:flex;
+	flex-direction: row;
+	flex-wrap:wrap;
+
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50vh; /* Could be more or less, depending on screen size */
+}
+
+.close {
+	display:flex;
+	justify-content: flex-end;
+  color: #aaa;
+  width:100%;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#submit{
+	border:2px solid black;
+	padding:3px 10px 3px 10px;
+
+	
+}
+
+#submit:hover{
+	background-color: #444a4d;	
+}
+
+#flex-wrapper{
+	display:flex;
+	flex-direction:row;
+	flex-wrap:wrap;
+	justify-content: flex-start;
+	width:100%;
+}
+
+label
+{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	
+	text-align: center;
+	width: 33%;
+	line-height: 26px;
+	margin-bottom: 10px;
+	
+}
+
+input, textarea
+{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+
+	width: 66%;
+	height: 20px;
+	flex: 0 0 200px;
+	margin-left: 10px;
+}
+
+#addProjectHeader{
+	width:100%;
+	text-align:center;
+	font-size:36px;
+	padding:0px 0px 20px 0px;
+}
+
+#button-row{
+	padding:20px;
+	display: flex;
+	flex-direction:row;
+	align-items:center;
+	justify-content:center;
+	width:100%;
+}
+
+#project-panel
+{
+	flex-basis:20%;
+	justify-content: center;
+	align-content: center;
+	height:100vh;
+
+}
+
+#flex-wrapper-2{
+
+	display:flex;
+	flex-direction:row;
+	flex-wrap:wrap;
+	justify-content: center;
+	align-content: center;
+
+}
+
+#project-header
+{
+	font-family:san-fran-bold;
+	font-size:40px;
+	text-align:center;
+	width:100%;
+	margin-top:7vh;
+	margin-bottom:4vh;
+}
+
+#add-project{
+
+	border: 2px solid black;
+	padding:10px;
+	
+}
+
+#add-project:hover{
+	background-color: #444a4d;	
+}
+
+#plus-icon{
+	color:#ff3f3f;
+}
+
+#project-entries{
+
+	flex-basis:80%;
+	background-color: purple;
+	height:100vh;
+
+}
+
+.project{
+
+	background-color: white;
+	padding:2vh 8vh 2vh 8vh;
+	margin:2vh;
+	display:flex;
+	justify-content: space-between;
+}
+.project-name{
+
+	font-size:40px;
+}
+.project-description{
+	font-size:20px;
+}
+
+#project-btns-container{
+	display:flex;
+	flex-wrap:wrap;
+	justify-content: center;
+	align-content: center;
+}
+
+.project-btns{
+	font-size:15px;
+	width:100%;
+}
+
+.project-btns:hover{
+	text-decoration: underline;
+}
