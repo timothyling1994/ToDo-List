@@ -245,8 +245,6 @@ let DOMController = (() => {
 
 			editModal.style.display="block";
 
-			//let editProjectId = this.closest(".project").getAttribute("value");
-			//projectController.editProject(editProjectId);
 		});
 
 
@@ -270,10 +268,29 @@ let DOMController = (() => {
 		newProjectDiv.setAttribute("id","project-"+project_id);
 		newProjectDiv.setAttribute("value",project_id);
 		newProjectDiv.classList.add("project");
+
 		newProjectDiv.appendChild(projectInfo,newProjectDiv);
 		newProjectDiv.appendChild(projectBtns,newProjectDiv);
 
+		let addEntryBtn = document.createElement("div");
+		addEntryBtn.classList.add("add-task");
+		let span = document.createElement("span");
+		let spanText = document.createTextNode("+");
+		span.appendChild(spanText);
+		span.classList.add("plus-icon");
+
+		let addEntryText = document.createTextNode("Add Task");
+		addEntryBtn.appendChild(span);
+		addEntryBtn.appendChild(addEntryText);
+		addEntryBtn.addEventListener("click",function(){
+			
+		});
+
+		newProjectDiv.appendChild(addEntryBtn,newProjectDiv);
+
+
 		project_entries.appendChild(newProjectDiv,project_entries);
+
 
 	};
 

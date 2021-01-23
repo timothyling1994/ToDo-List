@@ -150,7 +150,7 @@ input, textarea
 	background-color: #444a4d;	
 }
 
-#plus-icon{
+.plus-icon{
 	color:#ff3f3f;
 }
 
@@ -168,8 +168,14 @@ input, textarea
 	padding:2vh 8vh 2vh 8vh;
 	margin:2vh;
 	display:flex;
-	justify-content: space-between;
+	flex-wrap: wrap;
+
 }
+.project-info{
+	width:100%;
+	background-color: orange;
+}
+
 .project-name{
 
 	font-size:40px;
@@ -179,17 +185,27 @@ input, textarea
 }
 
 .project-btns-container{
-	display:flex;
-	flex-wrap:wrap;
-	justify-content: center;
-	align-content: center;
+
+	width:100%;
+	background-color: yellow;
 }
 
 .project-btns{
+	padding:3px;
+	display:inline;
 	font-size:15px;
-	width:100%;
+
 }
 
 .project-btns:hover{
 	text-decoration: underline;
+}
+
+.add-task{
+	margin-left:auto;
+	
+}
+
+.add-task:hover{
+	background-color: #444a4d;	
 }
