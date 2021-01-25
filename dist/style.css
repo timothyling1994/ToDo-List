@@ -214,7 +214,7 @@ input, textarea
 	width:100%;
 	padding:1vh 1vh 1vh 1vh;
 	flex-wrap: wrap;
-	background-color: yellow;
+
 }
 
 .task-name-input{
@@ -231,4 +231,21 @@ input, textarea
 	margin-left: auto;
 	background-color: red;
 	padding:1vh;
+}
+
+.check-box{
+	width: 25px;
+    height: 25px;
+    border-radius: 50%;
+   	border: 1px solid black;
+    cursor: pointer;
+    margin:1vh;
+}
+
+.checked{
+	background-image:url(img/check-mark.png);
+	background-size:20px;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-color:green;
 }

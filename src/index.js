@@ -4,7 +4,8 @@ const entryFactory = () => {
 
 		entryId:0,
 		dueDate: "",
-		entry_descrip:""
+		entry_descrip:"",
+		checked:false,
 
 	};
 
@@ -16,7 +17,12 @@ const entryFactory = () => {
 		return entry[fieldName];
 	};
 
-	return {editField, returnField};	
+	const changeChecked = ()=>
+	{
+		entry.checked = !entry.checked; 
+	};
+
+	return {editField, changeChecked,returnField};	
 };
 
 let projectController = (() => {
@@ -70,6 +76,7 @@ let projectController = (() => {
 	const addEntrytoProject = (projectId,task) => {	
 		let entry = entryFactory();
 		entry.entry_descrip = task;
+		entry.entryId = projectArray[projectId].returnCounter();
 		projectArray[projectId].addtoEntryArray(entry);
 	};
 
@@ -112,12 +119,16 @@ let projectFactory = () => {
 		
 	};		
 	*/
+
+	const returnCounter = () =>{
+		return entryCounter;
+	}
 	const addtoEntryArray = (task) => {
 		entryArray.push(task);
-		entryCounter += entryCounter;
+		entryCounter += 1;
 	};
 
-	return {entryArray,addtoEntryArray};
+	return {entryArray,returnCounter,addtoEntryArray};
 };
 
 let DOMController = (() => {
@@ -211,14 +222,48 @@ let DOMController = (() => {
 		let addToProject = document.querySelector(divSearch);
 
 
-
 		for (let i=0;i<length;i++)
 		{
+			let currentEntry = projectController.projectArray[addToProjectId].entryArray[i];
+
 			let taskDOM = document.createElement("div");
 			taskDOM.classList.add("task-container");
+			taskDOM.setAttribute("id","entry-"+i);
+			let checkbox = document.createElement("div");
+			checkbox.classList.add("check-box");
+
+			if(currentEntry.returnField("checked") == true)
+			{
+				checkbox.classList.add("checked");
+			}
+
+			checkbox.addEventListener("click",function(){
+				if(this.classList.contains("checked"))
+				{
+					this.classList.remove("checked");
+					let projectId = this.closest(".project").getAttribute("value");
+					let entryId = taskDOM.closest(".task-container").getAttribute("id").substr(6);
+					projectController.projectArray[projectId].entryArray[entryId].changeChecked();
+				}
+				else
+				{
+					this.classList.add("checked");
+					let projectId = this.closest(".project").getAttribute("value");
+					let entryId = taskDOM.closest(".task-container").getAttribute("id").substr(6);
+					projectController.projectArray[projectId].entryArray[entryId].changeChecked();
+				}
+			});
+
+			taskDOM.appendChild(checkbox);
+
+
+
 			let taskText = projectController.projectArray[addToProjectId].entryArray[i].entry_descrip;
 			let textNode = document.createTextNode(taskText);
 			taskDOM.appendChild(textNode);
+
+
+
 			addToProject.insertBefore(taskDOM,addToProject.querySelector(".add-task"));
 		}
 
