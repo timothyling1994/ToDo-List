@@ -3,8 +3,8 @@
 
 html, body{
 	margin:0;
-	max-width:100%;
-	max-height:100%;
+	min-width:100%;
+	min-height:100%;
 	font-family:san-fran;
 	font-size:24px;
 }
@@ -165,7 +165,7 @@ input, textarea
 .project{
 
 	background-color: white;
-	padding:2vh 8vh 2vh 8vh;
+	padding:1vh 1vh 1vh 1vh;
 	margin:2vh;
 	display:flex;
 	flex-wrap: wrap;
@@ -203,9 +203,32 @@ input, textarea
 
 .add-task{
 	margin-left:auto;
-	
 }
 
 .add-task:hover{
 	background-color: #444a4d;	
+}
+
+.task-container{
+	display:flex;
+	width:100%;
+	padding:1vh 1vh 1vh 1vh;
+	flex-wrap: wrap;
+	background-color: yellow;
+}
+
+.task-name-input{
+	flex-basis:50%;
+	height:5vh;
+}
+
+.submit-task{
+	background-color: green;
+	padding:1vh;
+	margin-left: auto;
+}
+.cancel-task{
+	margin-left: auto;
+	background-color: red;
+	padding:1vh;
 }

@@ -1,14 +1,10 @@
-/*const entryFactory = () => {
+const entryFactory = () => {
 	
 	let entry = {
 
 		entryId:0,
-		projectId:"",
-		projectName:"",
-		title: "",
-		description: "",
 		dueDate: "",
-		priority:1, 
+		entry_descrip:""
 
 	};
 
@@ -21,7 +17,7 @@
 	};
 
 	return {editField, returnField};	
-};*/
+};
 
 let projectController = (() => {
 
@@ -71,11 +67,17 @@ let projectController = (() => {
 		addtoArray(newProj);
 	};
 
+	const addEntrytoProject = (projectId,task) => {	
+		let entry = entryFactory();
+		entry.entry_descrip = task;
+		projectArray[projectId].addtoEntryArray(entry);
+	};
+
 	const returnProjectsCounter = () => {
 		return projectsCounter;
 	};
 
-	return {addNewProject,editProject,deleteProject,returnProjectsCounter,projectArray};
+	return {addNewProject,addEntrytoProject, editProject,deleteProject,returnProjectsCounter,projectArray};
 })();
 
 let projectFactory = () => {
@@ -109,13 +111,13 @@ let projectFactory = () => {
 	const editEntry = (entryId, fieldName, newValue) => {
 		
 	};		
-
-	const addtoEntryArray = (entry) => {
-		entryArray.push(newEntry);
+	*/
+	const addtoEntryArray = (task) => {
+		entryArray.push(task);
 		entryCounter += entryCounter;
-	};*/
+	};
 
-	return {entryArray};
+	return {entryArray,addtoEntryArray};
 };
 
 let DOMController = (() => {
@@ -172,8 +174,6 @@ let DOMController = (() => {
 
 		let edited_proj_name = document.querySelector("#edit-project-name-input").value;
 		let edited_proj_descrip = document.querySelector("#edit-project-descrip-input").value;
-
-		console.log("after submit:" + toEdit);
 		projectController.editProject(toEdit, edited_proj_name,edited_proj_descrip);
 
 
@@ -192,6 +192,8 @@ let DOMController = (() => {
 			let id = projectController.projectArray[i].projectId;
 
 			addNewProjectDOM(project_name,project_descrip,id);
+			addTasksDOM(id);
+
 		}
 	};
 
@@ -201,6 +203,68 @@ let DOMController = (() => {
 			project_entries.removeChild(project_entries.lastChild);
 		}
 	};
+
+	const addTasksDOM = (addToProjectId) => {
+		
+		let length = projectController.projectArray[addToProjectId].entryArray.length;
+		let divSearch = "#project-" + addToProjectId;
+		let addToProject = document.querySelector(divSearch);
+
+
+
+		for (let i=0;i<length;i++)
+		{
+			let taskDOM = document.createElement("div");
+			taskDOM.classList.add("task-container");
+			let taskText = projectController.projectArray[addToProjectId].entryArray[i].entry_descrip;
+			let textNode = document.createTextNode(taskText);
+			taskDOM.appendChild(textNode);
+			addToProject.insertBefore(taskDOM,addToProject.querySelector(".add-task"));
+		}
+
+	};
+
+	const entryDetailsDOM = (addToProjectId, addEntryBtn) => {
+
+		let divSearch = "#project-" + addToProjectId;
+		let addToProject = document.querySelector(divSearch);
+
+		let entryDetails = document.createElement("div");
+		entryDetails.classList.add("task-container");
+
+		let task_name_input = document.createElement("input");
+		task_name_input.classList.add("task-name-input");
+		task_name_input.setAttribute("type","text");
+
+		let due_date = document.createElement("div");
+		due_date.setAttribute("id","due-date");
+
+		let submit_task_btn = document.createElement("div");
+		submit_task_btn.classList.add("submit-task");
+		let text = document.createTextNode("Submit");
+		submit_task_btn.appendChild(text);
+
+		submit_task_btn.addEventListener("click",function(){
+
+			let task = this.parentElement.querySelector(".task-name-input").value;
+			let projectId = this.closest(".project").getAttribute("value");
+			projectController.addEntrytoProject(projectId,task);
+			updateDOM();		
+		});
+
+		let cancel_task_btn = document.createElement("div");
+		cancel_task_btn.classList.add("cancel-task");
+		text = document.createTextNode("Cancel");
+		cancel_task_btn.appendChild(text);
+
+		entryDetails.appendChild(task_name_input,entryDetails);
+		entryDetails.appendChild(due_date,entryDetails);
+		entryDetails.appendChild(submit_task_btn,entryDetails);
+		entryDetails.appendChild(cancel_task_btn,entryDetails);
+
+		addToProject.insertBefore(entryDetails,addEntryBtn);
+
+	}
 
 	const addNewProjectDOM = (project_name, project_descrip, project_id) => {
 
@@ -239,7 +303,6 @@ let DOMController = (() => {
 			let descrip_placeholder = this.parentElement.previousSibling.firstChild.nextSibling.textContent;
 			toEdit = this.closest(".project").getAttribute("value");
 
-			console.log("before submit:" + toEdit);
 			edit_name.value = name_placeholder;
 			edit_descrip.value = descrip_placeholder;
 
@@ -265,7 +328,7 @@ let DOMController = (() => {
 
 
 		let newProjectDiv =  document.createElement("div");
-		newProjectDiv.setAttribute("id","project-"+project_id);
+		newProjectDiv.setAttribute("id","project-"+ project_id);
 		newProjectDiv.setAttribute("value",project_id);
 		newProjectDiv.classList.add("project");
 
@@ -283,7 +346,8 @@ let DOMController = (() => {
 		addEntryBtn.appendChild(span);
 		addEntryBtn.appendChild(addEntryText);
 		addEntryBtn.addEventListener("click",function(){
-			
+			let addtoProjectId = this.closest(".project").getAttribute("value");
+			entryDetailsDOM(addtoProjectId, this);
 		});
 
 		newProjectDiv.appendChild(addEntryBtn,newProjectDiv);
