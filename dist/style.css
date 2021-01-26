@@ -119,6 +119,11 @@ input, textarea
 
 }
 
+.panel-item{
+	width:100%;
+	background-color:yellow;
+}
+
 #flex-wrapper-2{
 
 	display:flex;

@@ -50,6 +50,7 @@ let projectController = (() => {
 		projectArray[projectId].proj_description = project_descrip;
 
 		DOMController.updateDOM();
+		DOMController.updateProjectPanelDOM();
 	};
 
 	const deleteProject = (indexToRemove) => {
@@ -62,6 +63,7 @@ let projectController = (() => {
 		}
 
 		DOMController.updateDOM();
+		DOMController.updateProjectPanelDOM();
 	};
 
 	const addNewProject = (project_name,project_descrip) => {
@@ -96,29 +98,6 @@ let projectFactory = () => {
 	let entryCounter = 0;
 
 	let entryArray = [];
-
-	/*
-	const returnEntryArray = (index) => {
-		return entryArray[index];
-	};
-
-	const addEntry = (entryIdVal, projectIdVal, projectNameVal, titleVal, descriptionVal,dueDateVal,priorityVal) => {
-		
-		let newEntry = entryFactory();
-
-		newEntry.editField("entryId",entryIdVal);
-		newEntry.editField("projectId",projectIdVal);
-		newEntry.editField("projectName",projectNameVal);
-		newEntry.editField("title",titleVal);
-		newEntry.editField("description",descriptionVal);
-		newEntry.editField("dueDate",dueDateVal);
-		newEntry.editField("priority",priorityVal);
-	};
-
-	const editEntry = (entryId, fieldName, newValue) => {
-		
-	};		
-	*/
 
 	const returnCounter = () =>{
 		return entryCounter;
@@ -170,6 +149,7 @@ let DOMController = (() => {
 			projectController.addNewProject(proj_name,proj_descrip);
 			let id = projectController.returnProjectsCounter() - 1;
 			addNewProjectDOM(proj_name,proj_descrip,id);
+			updateProjectPanelDOM();
 
 			addModal.style.display = "none";
 		});
@@ -206,6 +186,38 @@ let DOMController = (() => {
 			addTasksDOM(id);
 
 		}
+	};
+
+	const updateProjectPanelDOM = () => {
+		deletePanelDOM();
+
+		let length = projectController.projectArray.length;
+		let panel = document.querySelector("#flex-wrapper-2");
+
+		let add_proj_btn = document.querySelector("#add-project");
+
+
+		for (let i = 0;i<length; i++)
+		{
+			let project_name = projectController.projectArray[i].proj_name; 
+			let newDiv = document.createElement("div");
+			newDiv.setAttribute("id","panel-"+i);
+			newDiv.classList.add("panel-item");
+
+			let text = document.createTextNode(project_name);
+			newDiv.appendChild(text);
+
+			panel.insertBefore(newDiv,add_proj_btn);
+
+		}
+	};
+
+	const deletePanelDOM = () =>
+	{
+		let nodelist = document.querySelectorAll(".panel-item");
+		nodelist.forEach(node=>{
+			node.parentElement.removeChild(node);
+		});
 	};
 
 	const deleteDOM = () => {
@@ -403,7 +415,7 @@ let DOMController = (() => {
 
 	};
 
-	return{init,updateDOM, deleteDOM};
+	return{init,updateDOM,updateProjectPanelDOM, deleteDOM};
 
 })();
 
