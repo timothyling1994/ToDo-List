@@ -119,7 +119,7 @@ let DOMController = (() => {
 	const init = () => {
 
 		project_panel = document.querySelector("#project-panel");
-		project_entries = document.querySelector("#project-entries");
+		project_entries = document.querySelector("#project-main");
 
 		let addModal = document.getElementById("modalWindow");
 		let editModal = document.getElementById("editModalWindow");
@@ -192,7 +192,7 @@ let DOMController = (() => {
 		deletePanelDOM();
 
 		let length = projectController.projectArray.length;
-		let panel = document.querySelector("#flex-wrapper-2");
+		let panel = document.querySelector("#project-panel");
 
 		let add_proj_btn = document.querySelector("#add-project");
 
@@ -239,7 +239,7 @@ let DOMController = (() => {
 			let currentEntry = projectController.projectArray[addToProjectId].entryArray[i];
 
 			let taskDOM = document.createElement("div");
-			taskDOM.classList.add("task-container");
+			taskDOM.classList.add("task-row");
 			taskDOM.setAttribute("id","entry-"+i);
 			let checkbox = document.createElement("div");
 			checkbox.classList.add("check-box");
@@ -254,14 +254,14 @@ let DOMController = (() => {
 				{
 					this.classList.remove("checked");
 					let projectId = this.closest(".project").getAttribute("value");
-					let entryId = taskDOM.closest(".task-container").getAttribute("id").substr(6);
+					let entryId = taskDOM.closest(".task-row").getAttribute("id").substr(6);
 					projectController.projectArray[projectId].entryArray[entryId].changeChecked();
 				}
 				else
 				{
 					this.classList.add("checked");
 					let projectId = this.closest(".project").getAttribute("value");
-					let entryId = taskDOM.closest(".task-container").getAttribute("id").substr(6);
+					let entryId = taskDOM.closest(".task-row").getAttribute("id").substr(6);
 					projectController.projectArray[projectId].entryArray[entryId].changeChecked();
 				}
 			});
@@ -287,7 +287,7 @@ let DOMController = (() => {
 		let addToProject = document.querySelector(divSearch);
 
 		let entryDetails = document.createElement("div");
-		entryDetails.classList.add("task-container");
+		entryDetails.classList.add("task-row");
 
 		let task_name_input = document.createElement("input");
 		task_name_input.classList.add("task-name-input");
