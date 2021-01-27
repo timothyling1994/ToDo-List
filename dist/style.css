@@ -2,11 +2,16 @@
 @font-face { font-family: san-fran; src: url('Heebo/static/Heebo-Medium.ttf'); } 
 
 html, body{
-	margin:0;
-	min-width:100%;
-	min-height:100%;
+	width:100vw;
+	height:100vh;
+	overflow: hidden;
 	font-family:san-fran;
 	font-size:24px;
+}
+
+body{
+	margin:0px;
+	padding:0px;
 }
 
 .modal {
