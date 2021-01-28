@@ -314,6 +314,10 @@ let DOMController = (() => {
 		text = document.createTextNode("Cancel");
 		cancel_task_btn.appendChild(text);
 
+		cancel_task_btn.addEventListener("click",function(){
+			this.closest(".project").removeChild(this.parentElement);
+		});
+
 		entryDetails.appendChild(task_name_input,entryDetails);
 		entryDetails.appendChild(due_date,entryDetails);
 		entryDetails.appendChild(submit_task_btn,entryDetails);
@@ -392,6 +396,11 @@ let DOMController = (() => {
 		newProjectDiv.appendChild(projectInfo,newProjectDiv);
 		newProjectDiv.appendChild(projectBtns,newProjectDiv);
 
+		let divider = document.createElement("div");
+		divider.classList.add("main-divider");
+		newProjectDiv.appendChild(divider);
+
+
 		let addEntryBtn = document.createElement("div");
 		addEntryBtn.classList.add("add-task");
 		let span = document.createElement("span");
@@ -399,7 +408,7 @@ let DOMController = (() => {
 		span.appendChild(spanText);
 		span.classList.add("plus-icon");
 
-		let addEntryText = document.createTextNode("Add Task");
+		let addEntryText = document.createTextNode(" Add Task");
 		addEntryBtn.appendChild(span);
 		addEntryBtn.appendChild(addEntryText);
 		addEntryBtn.addEventListener("click",function(){
