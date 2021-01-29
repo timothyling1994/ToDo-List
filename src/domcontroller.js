@@ -94,6 +94,7 @@ let DOMController = (() => {
 			let taskDOM = document.createElement("div");
 			taskDOM.classList.add("task-row");
 			taskDOM.setAttribute("id","entry-"+i);
+			taskDOM.setAttribute("value",i);
 
 
 			let checkbox = document.createElement("div");
@@ -177,6 +178,12 @@ let DOMController = (() => {
 		submit_task_btn.addEventListener("click",function(){
 			if(editingEntry)
 			{
+				let task = this.parentElement.querySelector(".task-name-input").value;
+				let projectId = this.closest(".project").getAttribute("value");
+				let entryId = this.parentElement.nextSibling.getAttribute("value");
+				projectController.editEntryinProject(projectId,entryId,task);
+				updateDOM();
+				editingEntry=false;
 
 			}
 			else

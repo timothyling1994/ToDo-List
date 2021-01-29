@@ -55,14 +55,14 @@ let projectController = (() => {
 	const editEntryinProject = (projectId, entryId,task) => {
 		let entry = entryFactory();
 		entry.entry_descrip = task;
-		projectArray[projectId].editEntryinProject(entry);
+		projectArray[projectId].editEntryArray(entryId,entry);
 	};
 
 	const returnProjectsCounter = () => {
 		return projectsCounter;
 	};
 
-	return {addNewProject,addEntrytoProject, editProject,deleteProject,returnProjectsCounter,projectArray};
+	return {addNewProject,addEntrytoProject, editEntryinProject,editProject,deleteProject,returnProjectsCounter,projectArray};
 })();
 
 export {projectController}

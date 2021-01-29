@@ -20,7 +20,7 @@ let projectFactory = () => {
 		entryArray[entryId] = task;
 	};
 
-	return {entryArray,returnCounter,addtoEntryArray};
+	return {entryArray,returnCounter,addtoEntryArray,editEntryArray};
 };
 
 export {projectFactory}
