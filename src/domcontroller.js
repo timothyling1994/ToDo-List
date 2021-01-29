@@ -24,7 +24,19 @@ let DOMController = (() => {
 	};
 	
 
-	const updateDOM = () => {
+	const updateDOM = (projectId) => {
+		deleteDOM();
+
+		let project_name = projectController.projectArray[projectId].proj_name; 
+		let project_descrip = projectController.projectArray[projectId].proj_description;
+
+		addNewProjectDOM(project_name,project_descrip,projectId);
+		addTasksDOM(projectId);
+
+	
+	};
+
+	const updateAllDOM = () => {
 		deleteDOM();
 
 		let length = projectController.projectArray.length;
@@ -55,7 +67,12 @@ let DOMController = (() => {
 			let project_name = projectController.projectArray[i].proj_name; 
 			let newDiv = document.createElement("div");
 			newDiv.setAttribute("id","panel-"+i);
+			newDiv.setAttribute("value",i);
 			newDiv.classList.add("panel-item");
+
+			newDiv.addEventListener("click",function(){
+				updateDOM(this.getAttribute("value"));
+			});
 
 			let text = document.createTextNode(project_name);
 			newDiv.appendChild(text);
@@ -182,7 +199,7 @@ let DOMController = (() => {
 				let projectId = this.closest(".project").getAttribute("value");
 				let entryId = this.parentElement.nextSibling.getAttribute("value");
 				projectController.editEntryinProject(projectId,entryId,task);
-				updateDOM();
+				updateDOM(projectId);
 				editingEntry=false;
 
 			}
@@ -191,7 +208,7 @@ let DOMController = (() => {
 				let task = this.parentElement.querySelector(".task-name-input").value;
 				let projectId = this.closest(".project").getAttribute("value");
 				projectController.addEntrytoProject(projectId,task);
-				updateDOM();
+				updateDOM(projectId);
 			}		
 		});
 
@@ -314,7 +331,7 @@ let DOMController = (() => {
 
 	};
 
-	return{init,updateDOM,updateProjectPanelDOM,sendEditedDetails,addNewProjectDOM,deleteDOM};
+	return{init,updateAllDOM,updateDOM,updateProjectPanelDOM,sendEditedDetails,addNewProjectDOM,deleteDOM};
 
 })();
 

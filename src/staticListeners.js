@@ -6,6 +6,7 @@ let staticListeners = () => {
 
 		let project_panel = document.querySelector("#project-panel");
 		let project_entries = document.querySelector("#project-main");
+		let all_btn = document.querySelector("#all");
 
 		let addModal = document.getElementById("modalWindow");
 		let editModal = document.getElementById("editModalWindow");
@@ -14,6 +15,10 @@ let staticListeners = () => {
 		let edit_modal_close_btn = document.getElementsByClassName("close")[1];
 		let add_submit_btn = document.querySelector("#submit-add");
 		let edit_submit_btn = document.querySelector("#submit-edit");
+
+		all.addEventListener("click",function(){
+			DOMController.updateAllDOM();
+		});
 
 		add_proj_btn.addEventListener("click",function(){
 			addModal.style.display = "block";
@@ -34,7 +39,7 @@ let staticListeners = () => {
 
 			projectController.addNewProject(proj_name,proj_descrip);
 			let id = projectController.returnProjectsCounter() - 1;
-			DOMController.addNewProjectDOM(proj_name,proj_descrip,id);
+			DOMController.updateDOM(id);
 			DOMController.updateProjectPanelDOM();
 
 			addModal.style.display = "none";

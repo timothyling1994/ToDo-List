@@ -19,7 +19,7 @@ let projectController = (() => {
 		projectArray[projectId].proj_name = project_name;
 		projectArray[projectId].proj_description = project_descrip;
 
-		DOMController.updateDOM();
+		DOMController.updateDOM(projectId);
 		DOMController.updateProjectPanelDOM();
 	};
 
@@ -32,7 +32,7 @@ let projectController = (() => {
 			projectArray[i].projectId = i;
 		}
 
-		DOMController.updateDOM();
+		DOMController.updateAllDOM();
 		DOMController.updateProjectPanelDOM();
 	};
 
