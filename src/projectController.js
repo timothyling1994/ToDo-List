@@ -4,7 +4,6 @@ import { DOMController } from './domController.js'
 
 let projectController = (() => {
 
-	//projectArray with projectId has index
 	let projectsCounter = 0;
 	let projectArray = [];
 
@@ -51,6 +50,12 @@ let projectController = (() => {
 		entry.entry_descrip = task;
 		entry.entryId = projectArray[projectId].returnCounter();
 		projectArray[projectId].addtoEntryArray(entry);
+	};
+
+	const editEntryinProject = (projectId, entryId,task) => {
+		let entry = entryFactory();
+		entry.entry_descrip = task;
+		projectArray[projectId].editEntryinProject(entry);
 	};
 
 	const returnProjectsCounter = () => {

@@ -94,6 +94,8 @@ let DOMController = (() => {
 			let taskDOM = document.createElement("div");
 			taskDOM.classList.add("task-row");
 			taskDOM.setAttribute("id","entry-"+i);
+
+
 			let checkbox = document.createElement("div");
 			checkbox.classList.add("check-box");
 
@@ -122,10 +124,21 @@ let DOMController = (() => {
 			taskDOM.appendChild(checkbox);
 
 
-
+			let text_container = document.createElement("div");
 			let taskText = projectController.projectArray[addToProjectId].entryArray[i].entry_descrip;
 			let textNode = document.createTextNode(taskText);
-			taskDOM.appendChild(textNode);
+			text_container.appendChild(textNode);
+
+			text_container.addEventListener("click",function(){
+		
+				this.parentElement.style.display="none";
+				let addToProjectId = this.closest(".project").getAttribute("value");
+
+				entryDetailsDOM(addToProjectId, this.parentElement,true,text_container.textContent);
+				//entryDetailsDOM(addToProjectId,addTaskbtn,true,text_container.textContent);
+			});
+
+			taskDOM.appendChild(text_container,taskDOM);
 
 
 
@@ -134,7 +147,9 @@ let DOMController = (() => {
 
 	};
 
-	const entryDetailsDOM = (addToProjectId, addEntryBtn) => {
+	const entryDetailsDOM = (addToProjectId, addEntryBtn, editingEntry,editTaskName) => {
+
+		editingEntry = editingEntry || false; 
 
 		let divSearch = "#project-" + addToProjectId;
 		let addToProject = document.querySelector(divSearch);
@@ -146,6 +161,11 @@ let DOMController = (() => {
 		task_name_input.classList.add("task-name-input");
 		task_name_input.setAttribute("type","text");
 
+		if(editingEntry)
+		{
+			task_name_input.value=editTaskName;
+		}
+
 		let due_date = document.createElement("div");
 		due_date.setAttribute("id","due-date");
 
@@ -155,11 +175,17 @@ let DOMController = (() => {
 		submit_task_btn.appendChild(text);
 
 		submit_task_btn.addEventListener("click",function(){
+			if(editingEntry)
+			{
 
-			let task = this.parentElement.querySelector(".task-name-input").value;
-			let projectId = this.closest(".project").getAttribute("value");
-			projectController.addEntrytoProject(projectId,task);
-			updateDOM();		
+			}
+			else
+			{
+				let task = this.parentElement.querySelector(".task-name-input").value;
+				let projectId = this.closest(".project").getAttribute("value");
+				projectController.addEntrytoProject(projectId,task);
+				updateDOM();
+			}		
 		});
 
 		let cancel_task_btn = document.createElement("div");
@@ -168,7 +194,13 @@ let DOMController = (() => {
 		cancel_task_btn.appendChild(text);
 
 		cancel_task_btn.addEventListener("click",function(){
-			this.closest(".project").removeChild(this.parentElement);
+			if(editingEntry)
+			{
+				console.log(this.parentElement.nextSibling);
+				this.parentElement.nextSibling.style.display="flex";
+				this.closest(".project").removeChild(this.parentElement);
+				editingEntry = false;
+			}
 		});
 
 		entryDetails.appendChild(task_name_input,entryDetails);
@@ -186,7 +218,6 @@ let DOMController = (() => {
 
 		let projectInfo = document.createElement("div");
 		projectInfo.setAttribute("class","project-info");
-		//projectInfo.setAttribute("value","project-info");
 
 		let nameDiv =  document.createElement("div");
 		let nameTextNode = document.createTextNode(project_name);
@@ -270,7 +301,6 @@ let DOMController = (() => {
 		});
 
 		newProjectDiv.appendChild(addEntryBtn,newProjectDiv);
-
 
 		project_entries.appendChild(newProjectDiv,project_entries);
 

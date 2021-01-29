@@ -16,6 +16,10 @@ let projectFactory = () => {
 		entryCounter += 1;
 	};
 
+	const editEntryArray = (entryId,task) => {
+		entryArray[entryId] = task;
+	};
+
 	return {entryArray,returnCounter,addtoEntryArray};
 };
 

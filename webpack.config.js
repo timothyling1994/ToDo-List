@@ -5,6 +5,7 @@ module.exports = {
   entry: './src/index.js',
   devServer: {
     contentBase: './dist',
+    watchContentBase: true,
   },
   output: {
     filename: 'main.js',
