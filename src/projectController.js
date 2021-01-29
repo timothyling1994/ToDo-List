@@ -19,8 +19,6 @@ let projectController = (() => {
 		projectArray[projectId].proj_name = project_name;
 		projectArray[projectId].proj_description = project_descrip;
 
-		DOMController.updateDOM(projectId);
-		DOMController.updateProjectPanelDOM();
 	};
 
 	const deleteProject = (indexToRemove) => {
@@ -32,8 +30,6 @@ let projectController = (() => {
 			projectArray[i].projectId = i;
 		}
 
-		DOMController.updateAllDOM();
-		DOMController.updateProjectPanelDOM();
 	};
 
 	const addNewProject = (project_name,project_descrip) => {

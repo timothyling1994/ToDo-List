@@ -7,6 +7,7 @@ let DOMController = (() => {
 	let project_panel;
 	let project_entries;
 	let toEdit;
+	let isAllTab = false;
 
 	const init = () => {
 
@@ -15,16 +16,36 @@ let DOMController = (() => {
 		project_entries = document.querySelector("#project-main");
 	}
 
-	const sendEditedDetails = () => {
+	const sendEditedDetails = (div) => {
 
 		let edited_proj_name = document.querySelector("#edit-project-name-input").value;
 		let edited_proj_descrip = document.querySelector("#edit-project-descrip-input").value;
 		projectController.editProject(toEdit, edited_proj_name,edited_proj_descrip);
 
+		if(returnisAllTab())
+		{
+			updateAllDOM();
+		}
+		else
+		{
+			updateDOM(toEdit);
+		}
+
+		updateProjectPanelDOM();
+
+	};
+
+	const toggleisAllTab = () =>{
+		isAllTab = true;
+	};
+	
+	const returnisAllTab = () =>{
+		return isAllTab;
 	};
 	
 
 	const updateDOM = (projectId) => {
+		console.log(isAllTab);
 		deleteDOM();
 
 		let project_name = projectController.projectArray[projectId].proj_name; 
@@ -37,6 +58,7 @@ let DOMController = (() => {
 	};
 
 	const updateAllDOM = () => {
+		console.log(isAllTab);
 		deleteDOM();
 
 		let length = projectController.projectArray.length;
@@ -71,6 +93,18 @@ let DOMController = (() => {
 			newDiv.classList.add("panel-item");
 
 			newDiv.addEventListener("click",function(){
+				let nodelist = document.querySelectorAll(".panel-item, .all-panel-item");
+				nodelist.forEach(node=>{
+					console.log(node);
+					if(node.classList.contains("panel-highlight"))
+					{
+						node.classList.remove("panel-highlight");
+					}
+				});
+				this.classList.add("panel-highlight");
+
+
+				isAllTab=false;
 				updateDOM(this.getAttribute("value"));
 			});
 
@@ -199,7 +233,14 @@ let DOMController = (() => {
 				let projectId = this.closest(".project").getAttribute("value");
 				let entryId = this.parentElement.nextSibling.getAttribute("value");
 				projectController.editEntryinProject(projectId,entryId,task);
-				updateDOM(projectId);
+				if(isAllTab)
+				{
+					updateAllDOM();
+				}
+				else
+				{
+					updateDOM(projectId);
+				}
 				editingEntry=false;
 
 			}
@@ -208,7 +249,17 @@ let DOMController = (() => {
 				let task = this.parentElement.querySelector(".task-name-input").value;
 				let projectId = this.closest(".project").getAttribute("value");
 				projectController.addEntrytoProject(projectId,task);
-				updateDOM(projectId);
+				console.log("test");
+				if(isAllTab)
+				{
+					console.log("test1");
+					updateAllDOM();
+				}
+				else
+				{
+					console.log("test2");
+					updateDOM(projectId);
+				}
 			}		
 		});
 
@@ -288,6 +339,9 @@ let DOMController = (() => {
 		deleteBtn.addEventListener("click",function(){
 			let deleteProjectId = this.closest(".project").getAttribute("value");
 			projectController.deleteProject(deleteProjectId);
+
+			updateAllDOM();
+			updateProjectPanelDOM();
 		});
 		let deleteText = document.createTextNode("Delete");
 		deleteBtn.appendChild(deleteText);
@@ -331,7 +385,7 @@ let DOMController = (() => {
 
 	};
 
-	return{init,updateAllDOM,updateDOM,updateProjectPanelDOM,sendEditedDetails,addNewProjectDOM,deleteDOM};
+	return{init,toggleisAllTab,returnisAllTab,updateAllDOM,updateDOM,updateProjectPanelDOM,sendEditedDetails,addNewProjectDOM,deleteDOM};
 
 })();
 

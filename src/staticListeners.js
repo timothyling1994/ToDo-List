@@ -17,7 +17,17 @@ let staticListeners = () => {
 		let edit_submit_btn = document.querySelector("#submit-edit");
 
 		all.addEventListener("click",function(){
+			let nodelist = document.querySelectorAll(".panel-item");
+			nodelist.forEach(node=>{
+				if(node.classList.contains("panel-highlight"))
+				{
+					node.classList.remove("panel-highlight");
+				}
+			});
+			this.classList.add("panel-highlight");
+			DOMController.toggleisAllTab();
 			DOMController.updateAllDOM();
+
 		});
 
 		add_proj_btn.addEventListener("click",function(){
@@ -39,14 +49,27 @@ let staticListeners = () => {
 
 			projectController.addNewProject(proj_name,proj_descrip);
 			let id = projectController.returnProjectsCounter() - 1;
-			DOMController.updateDOM(id);
-			DOMController.updateProjectPanelDOM();
+			if(DOMController.returnisAllTab()){
+				DOMController.updateAllDOM();
+				DOMController.updateProjectPanelDOM();
+			}
+			else
+			{
+				
+				DOMController.updateDOM(id);
+				DOMController.updateProjectPanelDOM();
+				
+				let highlight_panel_item = document.querySelector("#panel-"+id);
+				highlight_panel_item.classList.add("panel-highlight");
+			}
+
 
 			addModal.style.display = "none";
 		});
 
 		edit_submit_btn.addEventListener("click",function(){
-			DOMController.sendEditedDetails();
+			//console.log(this);
+			DOMController.sendEditedDetails(this);
 			editModal.style.display="none";
 		});
 }
