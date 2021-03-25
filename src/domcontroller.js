@@ -25,13 +25,17 @@ let DOMController = (() => {
 		if(returnisAllTab())
 		{
 			updateAllDOM();
+			updateProjectPanelDOM();
 		}
 		else
 		{
 			updateDOM(toEdit);
+			updateProjectPanelDOM();
+
+			let highlight_panel_item = document.querySelector("#panel-"+toEdit);
+			highlight_panel_item.classList.add("panel-highlight");
 		}
 
-		updateProjectPanelDOM();
 
 	};
 
@@ -177,6 +181,7 @@ let DOMController = (() => {
 
 
 			let text_container = document.createElement("div");
+			text_container.classList.add("text-container");
 			let taskText = projectController.projectArray[addToProjectId].entryArray[i].entry_descrip;
 			let textNode = document.createTextNode(taskText);
 			text_container.appendChild(textNode);
@@ -227,38 +232,38 @@ let DOMController = (() => {
 		submit_task_btn.appendChild(text);
 
 		submit_task_btn.addEventListener("click",function(){
-			if(editingEntry)
+			let task = this.parentElement.querySelector(".task-name-input").value;
+			let projectId = this.closest(".project").getAttribute("value");
+			console.log("task"+task);
+			if(task)
 			{
-				let task = this.parentElement.querySelector(".task-name-input").value;
-				let projectId = this.closest(".project").getAttribute("value");
-				let entryId = this.parentElement.nextSibling.getAttribute("value");
-				projectController.editEntryinProject(projectId,entryId,task);
-				if(isAllTab)
+				if(editingEntry)
 				{
-					updateAllDOM();
-				}
-				else
-				{
-					updateDOM(projectId);
-				}
-				editingEntry=false;
+					let entryId = this.parentElement.nextSibling.getAttribute("value");
+					projectController.editEntryinProject(projectId,entryId,task);
+					if(isAllTab)
+					{
+						updateAllDOM();
+					}
+					else
+					{
+						updateDOM(projectId);
+					}
+					editingEntry=false;
 
-			}
-			else
-			{
-				let task = this.parentElement.querySelector(".task-name-input").value;
-				let projectId = this.closest(".project").getAttribute("value");
-				projectController.addEntrytoProject(projectId,task);
-				console.log("test");
-				if(isAllTab)
-				{
-					console.log("test1");
-					updateAllDOM();
 				}
 				else
 				{
-					console.log("test2");
-					updateDOM(projectId);
+					projectController.addEntrytoProject(projectId,task);
+
+					if(isAllTab)
+					{
+						updateAllDOM();
+					}
+					else
+					{
+						updateDOM(projectId);
+					}
 				}
 			}		
 		});
@@ -271,7 +276,6 @@ let DOMController = (() => {
 		cancel_task_btn.addEventListener("click",function(){
 			if(editingEntry)
 			{
-				console.log(this.parentElement.nextSibling);
 				this.parentElement.nextSibling.style.display="flex";
 				this.closest(".project").removeChild(this.parentElement);
 				editingEntry = false;
@@ -281,8 +285,30 @@ let DOMController = (() => {
 		entryDetails.appendChild(task_name_input,entryDetails);
 		entryDetails.appendChild(due_date,entryDetails);
 		entryDetails.appendChild(submit_task_btn,entryDetails);
-		entryDetails.appendChild(cancel_task_btn,entryDetails);
 
+		if(editingEntry)
+		{
+			let delete_task_btn = document.createElement("div");
+			delete_task_btn.classList.add("delete-task");
+			text = document.createTextNode("Delete");
+			delete_task_btn.appendChild(text);
+			delete_task_btn.addEventListener("click",function(){
+				let deleteEntryId = this.parentElement.nextSibling.getAttribute("value");
+				let projectId = this.closest(".project").getAttribute("value");
+				projectController.deleteEntryinProject(projectId,deleteEntryId);
+				if(isAllTab)
+				{
+					updateAllDOM();
+				}
+				else
+				{
+					updateDOM(projectId);
+				}
+			});
+			entryDetails.appendChild(delete_task_btn,entryDetails);
+		}
+
+		entryDetails.appendChild(cancel_task_btn,entryDetails);
 		addToProject.insertBefore(entryDetails,addEntryBtn);
 
 	}

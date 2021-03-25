@@ -1,26 +1,30 @@
-let projectFactory = () => {
+const projectFactory = () => {
+  let projectId = 0;
+  let proj_name = "";
+  let proj_description = "";
+  let entryCounter = 0;
+  let entryArray = [];
 
-	let projectId = 0;
-	let proj_name = "";
-	let proj_description = "";
+  const returnCounter = () => entryCounter;
+  const addtoEntryArray = (task) => {
+    entryArray.push(task);
+    entryCounter += 1;
+  };
 
-	let entryCounter = 0;
+  const editEntryArray = (entryId, task) => {
+    entryArray[entryId] = task;
+  };
 
-	let entryArray = [];
-
-	const returnCounter = () =>{
-		return entryCounter;
-	}
-	const addtoEntryArray = (task) => {
-		entryArray.push(task);
-		entryCounter += 1;
-	};
-
-	const editEntryArray = (entryId,task) => {
-		entryArray[entryId] = task;
-	};
-
-	return {entryArray,returnCounter,addtoEntryArray,editEntryArray};
+  const deleteEntry = (entryId) => {
+    entryArray.splice(entryId, 1);
+  };
+  return {
+    entryArray,
+    returnCounter,
+    addtoEntryArray,
+    editEntryArray,
+    deleteEntry,
+  };
 };
 
-export {projectFactory}
+export { projectFactory };

@@ -235,6 +235,17 @@ body{
 	margin-left:1vw;
 	padding:5px;
 }
+.delete-task{
+	display:flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #152CFE;
+	font-size: 18px;
+	font-family:san-fran;
+	border-radius:5px;
+	margin-left:1vw;
+	padding:5px;
+}
 .cancel-task{
 	display:flex;
 	align-items: center;
@@ -262,6 +273,10 @@ body{
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	background-color:#06f92b;
+}
+
+.text-container{
+	width:100%;
 }
 
 

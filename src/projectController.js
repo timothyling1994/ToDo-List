@@ -54,11 +54,15 @@ let projectController = (() => {
 		projectArray[projectId].editEntryArray(entryId,entry);
 	};
 
+	const deleteEntryinProject = (projectId, entryId) => {
+		projectArray[projectId].deleteEntry(entryId);
+	};
+
 	const returnProjectsCounter = () => {
 		return projectsCounter;
 	};
 
-	return {addNewProject,addEntrytoProject, editEntryinProject,editProject,deleteProject,returnProjectsCounter,projectArray};
+	return {addNewProject,addEntrytoProject, editEntryinProject,editProject,deleteProject,deleteEntryinProject,returnProjectsCounter,projectArray};
 })();
 
 export {projectController}
